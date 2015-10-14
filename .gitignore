@@ -1,2 +1,11 @@
 #Common folder for building objects
 build/
+
+#visual studio intermediate files
+*.opensdf
+*.sdf
+*suo
+*.obj
+*.log
+*.tlog
+*.pdb
