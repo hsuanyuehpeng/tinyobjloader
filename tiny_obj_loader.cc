@@ -783,10 +783,21 @@ fail:
 
 		shape_t shape;
 
+		inStream.seekg(0, inStream.end);
+		const size_t size = static_cast<size_t>(inStream.tellg());
+		inStream.seekg(0, inStream.beg);
+
+
+		double progress;// = 100.0 * static_cast<double>(cur_pos) / static_cast<double>(size);
+
 		int maxchars = 8192;             // Alloc enough size.
 		std::vector<char> buf(maxchars); // Alloc enough size.
 		while (inStream.peek() != -1)
 		{
+			const size_t cur_pos = static_cast<size_t>(inStream.tellg());
+			progress = 100.0 * static_cast<double>(cur_pos) / static_cast<double>(size);
+			fprintf(stdout, "\rProgress: %.2lf%%", progress);
+
 			inStream.getline(&buf[0], maxchars);
 
 			std::string linebuf(&buf[0]);
@@ -1003,6 +1014,7 @@ fail:
 
 			// Ignore unknown command.
 		}
+		fprintf(stdout, "\rProgress: 100%%          \n");
 
 		bool ret = exportFaceGroupToShape(shape, vertexCache, v, vn, vt, faceGroup,
 		                                  material, name, true);

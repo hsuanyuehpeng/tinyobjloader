@@ -9,3 +9,4 @@ build/
 *.log
 *.tlog
 *.pdb
+*.ilk
